@@ -2,15 +2,13 @@ import allure
 import requests
 import data
 import generators
-from conftest import create_user
-
 
 class TestLoginUser:
     @allure.title('Вход под существующим пользователем. ')
     def test_login_for_existing_user(self, create_user):
         login = requests.post(f'{data.Url.LOGIN_URl}', json=create_user[1])
         login_json = login.json()
-        assert (login_json['success'] == True and
+        assert (login.status_code == 200 and login_json['success'] == True and
                 'accessToken' in login_json and
                 'refreshToken' in login_json and
                 login_json['user'] == {'email': create_user[0]['email'], 'name': create_user[0]['name']})

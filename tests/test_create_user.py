@@ -8,7 +8,7 @@ class TestCreateUser:
     def test_create_unique_user(self, generate_user_data):
         registration = requests.post(f'{data.Url.REGISTER_URL}', json=generate_user_data[0])
         registration_json = registration.json()
-        assert (registration_json['success'] == True and
+        assert (registration.status_code == 200 and registration_json['success'] == True and
                 'accessToken' in registration_json and
                 'refreshToken' in registration_json and
                 registration_json['user'] == {'email': generate_user_data[0]['email'], 'name': generate_user_data[0]['name']})
